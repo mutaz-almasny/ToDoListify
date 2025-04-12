@@ -7,7 +7,7 @@ let accessToken = localStorage.getItem("accessToken");
 const axiosInstance = axios.create({
     baseURL: baseURL,
     withCredentials: true,
-});
+  });
 
 // Get Tasks
 const getTasks = async (token) => {
@@ -24,7 +24,7 @@ const getTasks = async (token) => {
             gridContainer.innerHTML = "<p class='text-gray-500 text-center mt-5'>There are no tasks available.</p>";
         } else {
             gridContainer.innerHTML = data.map((task, index) => `
-                <div index="${index}" 
+                                <div index="${index}" 
                     class="task-container w-full sm:w-[90%] md:w-[609px] min-h-[200px] bg-yellow-500 rounded-[52px] shadow-lg p-5 relative animate-slideIn">
 
                     <h2 class="absolute text-xl sm:text-2xl md:text-4xl w-fit top-[14px] left-[10%] sm:left-[135px] text-black font-extrabold rounded-lg">
@@ -103,13 +103,195 @@ const getTasks = async (token) => {
     }
 };
 
-// Call the function initially if token is available
-if (accessToken) {
-    getTasks(accessToken);
+getTasks(accessToken);
+
+// Function for circle color
+function getCircleColor(state) {
+    if (state === "IN_PROGRESS") {
+        return "bg-yellow-300";
+    } else if (state === "TO_DO") {
+        return "bg-[#FF0000]";
+    } else if (state === "DONE") {
+        return "bg-[#008000]";
+    }
 }
 
-// Logout functionality
-logOut_btn?.addEventListener("click", () => {
-    localStorage.removeItem("accessToken");
-    window.location.href = "/src/HTML/welcome.html";
+// Function for printing status
+function getState(state) {
+    if (state === "IN_PROGRESS") {
+        return "In Progress";
+    } else if (state === "TO_DO") {
+        return "UnFinished";
+    } else if (state === "DONE") {
+        return "Finished";
+    }
+}
+
+// Handle task deletion
+async function deleteTask(id) {
+    const { isConfirmed } = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to delete this task? This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel"
+    });
+
+    if (!isConfirmed) {
+        return;
+    }
+
+    try {
+        await axiosInstance.delete(`/api/v1/task/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        Swal.fire({
+            icon: "success",
+            title: "Task deleted ✅",
+            text: "Your task has been deleted successfully.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#efb700",
+        }).then(() => {
+            getTasks(accessToken); // Reload the tasks after deletion
+        });
+    } catch (error) {
+        if (error.response) {
+            const status = error.response.status;
+
+            if (status === 401) {
+                try {
+                    const refreshResponse = await axiosInstance.get(`/api/v1/user/refresh`);
+                    localStorage.setItem("accessToken", refreshResponse.data.accessToken);
+                    accessToken = refreshResponse.data.accessToken;
+                    return deleteTask(accessToken);
+                } catch (refreshError) {
+                    if (refreshError.response && refreshError.response.status === 401) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Session Expired",
+                            text: "You have to log in again.",
+                            confirmButtonColor: "#d33",
+                        }).then(() => {
+                            window.location.href = "/src/HTML/welcome.html";
+                        });
+                    }
+                }
+            } else if (status === 403) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Forbidden",
+                    text: "You can not delete a task of another user.",
+                    confirmButtonColor: "#d33",
+                });
+            } else if (status === 404) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Task Not Found",
+                    text: "This task does not exist.",
+                    confirmButtonColor: "#d33",
+                });
+            } else if (status === 500) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: "Something went wrong. Please try again later.",
+                    confirmButtonColor: "#d33",
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Network Error",
+                text: "Please check your internet connection and try again.",
+                confirmButtonColor: "#d33",
+            });
+        }
+    }
+}
+
+// Event listener for delete button click on div
+gridContainer.addEventListener("click", (event) => {
+    if (event.target && event.target.matches("button.delete_btn")) {
+        const taskId = event.target.getAttribute("task-id");
+        console.log("Delete button clicked for task ID:", taskId);
+        deleteTask(taskId);
+    }
+});
+
+// Handle LogOut Button
+logOut_btn.addEventListener("click", async () => {
+    const { isConfirmed } = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to log out?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel"
+    });
+
+    // إذا لم يؤكد المستخدم تسجيل الخروج، يتم الخروج من الدالة
+    if (!isConfirmed) {
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/api/v1/user/logout`, null, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        
+        localStorage.removeItem("accessToken");
+
+        window.location.href = "/index.html";
+    }
+    catch (error) {
+        if (error.response) {
+            const status = error.response.status;
+
+            if (status === 401) {
+                try {
+                    const refreshResponse = await axiosInstance.get(`/api/v1/user/refresh`);
+                    localStorage.setItem("accessToken", refreshResponse.data.accessToken);
+                    return delete_account_btn.click(); 
+                } catch (refreshError) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Session Expired",
+                        text: "You have to log in again.",
+                        confirmButtonColor: "#d33"
+                    }).then(() => {
+                        window.location.href = "/src/HTML/welcome.html";
+                    });
+                }
+            }else if (status === 429) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Too Many Requests",
+                    text: "You are making too many requests. Please try again later.",
+                    confirmButtonColor: "#d33",
+                });
+            } else if (status === 500) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: "Something went wrong. Please try again later.",
+                    confirmButtonColor: "#d33",
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Network Error",
+                text: "Please check your internet connection and try again.",
+                confirmButtonColor: "#d33",
+            });
+        }
+    }
 });
