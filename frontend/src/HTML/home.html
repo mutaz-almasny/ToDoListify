@@ -21,28 +21,26 @@
         }
     </style>
 </head>
-<body class="bg-white flex flex-col items-center relative">
+<body class="bg-white flex flex-col items-center relative px-4 sm:px-6 lg:px-10">
 
     <!-- الهيدر -->
-    <header class="absolute bg-primary-color w-[1410px] h-[153px] top-[-43px] left-[-45px] 
-                rounded-[52px] border border-yellow-600 flex items-center shadow-lg px-10 
-                animate-slideIn">
+    <header class="absolute bg-primary-color w-full max-w-[1410px] h-[120px] sm:h-[140px] top-[-30px] sm:top-[-43px] left-0 sm:left-[-45px] rounded-[32px] sm:rounded-[52px] border border-yellow-600  flex items-center shadow-lg px-6 sm:px-10 animate-slideIn>
 
-        <!-- النص مع الخط -->
+        
         <div class="relative ml-5"> <!-- زيادة المسافة عن الطرف -->
-            <h1 class="text-black text-4xl font-bold animate-slideInText">TO DO Listify</h1>
-            <div class="absolute left-0 bottom-[-5px] w-[200px] h-[4px] bg-white"></div>
+            <h1 class="text-black text-2xl sm:text-3xl md:text-4xl font-bold animate-slideInText">TO DO Listify</h1>
+            <div class="absolute left-0 bottom-[-5px] w-[120px] sm:w-[200px] h-[4px] bg-white"></div>
         </div>
 
         <!-- زر تسجيل الخروج -->
-        <button id="logOut" class="absolute right-10 bg-black text-white w-32 px-6 py-3 rounded-full text-lg shadow-md hover:bg-gray-800 transition-all duration-300 cursor-pointer">
+        <button id="logOut" class="absolute right-10 bg-black text-white w-28 sm:w-32 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:bg-gray-800 transition-all duration-300 cursor-pointer">
             Log Out
         </button>
 
     </header>
 
     <!-- الشريط الجانبي -->
-    <aside class="fixed left-0 top-[83px] h-full bg-primary-color p-5 flex flex-col items-center justify-start pt-10">
+    <aside class="fixed left-0 top-[83px] h-full bg-primary-color p-2 sm:p-5 flex flex-col items-center justify-start pt-5 sm:pt-10 w-16 sm:w-auto">
         <div class="space-y-5">
             <!-- الدوائر مع التأثير عند التركيز -->
             <div class="group w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg 
@@ -67,23 +65,23 @@
     </aside>
 
     <!-- الشبكة التي ستظهر عند الضغط -->
-    <div id="gridContainer" class=" grid grid-cols-2 gap-5 absolute top-[167px] left-[135px]">
+    <div id="gridContainer" class=" grid grid-cols-1 gap-4 sm:gap-5 absolute top-[180px] sm:top-[167px] left-4 sm:left-[135px] w-full max-w-[1200px]">
         <!-- 6 عناصر داخل الشبكة -->
 
     </div>
 
     <!-- واجهة البحث (مخفية في البداية) -->
-    <div id="searchContainer" class="hidden absolute top-[143px] left-[235px] w-[1061px] h-[72px] bg-gray-200 rounded-[52px] border-r-2 border-b-2 border-gray-600 opacity-52 shadow-lg 
-        flex items-center space-x-3 px-5 animate-slideIn">
+    <div id="searchContainer" class="hidden absolute top-[160px] sm:top-[143px] left-4 sm:left-[235px] w-[90%] sm:w-[1061px] h-[60px] sm:h-[72px] bg-gray-200 rounded-[32px] sm:rounded-[52px] border-r-2 border-b-2 border-gray-600 opacity-52 shadow-lg 
+        flex items-center space-x-3 px-4 sm:px-5 animate-slideIn">
     
     <!-- أيقونة البحث في الطرف الأيمن السفلي -->
-    <button class="absolute bottom-[-10px] right-[-10px] w-[50px] h-[50px] bg-primary-color rounded-full 
+    <button class="absolute bottom-[-10px] right-[-10px] w-[40px] sm:w-[50px] h-[40px] sm:h-[50px] bg-primary-color rounded-full 
         flex items-center justify-center shadow-md border-2 border-gray-700">
-        <i class='bx bx-search text-white text-2xl'></i>
+        <i class='bx bx-search text-white text-lg sm:text-2xl'></i>
     </button>
 
     <!-- حقل البحث -->
-        <input type="text" placeholder="Search" class="w-full h-full bg-transparent text-gray-800 text-4xl font-semibold focus:outline-none placeholder-gray-500">
+        <input type="text" placeholder="Search" class="w-full h-full bg-transparent text-gray-800 text-xl sm:text-2xl lg:text-4xl font-semibold focus:outline-none placeholder-gray-500">
     </div>
 
 
