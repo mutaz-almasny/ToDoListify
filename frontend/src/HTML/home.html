@@ -1,109 +1,82 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الرئيسية</title>
-    <link rel="stylesheet" href="/src/output.css" />
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الصفحة الرئيسية</title>
+  <link rel="stylesheet" href="/src/output.css" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
- 
-    <style>
-        @keyframes slideIn {
-            0% {
-                transform: translateY(100px); /* يبدأ من أسفل */
-                opacity: 0; /* النص غير مرئي في البداية */
-            }
-            100% {
-                transform: translateY(0); /* يتحرك للأعلى */
-                opacity: 1; /* يصبح النص مرئيًا */
-            }
-        }
-    </style>
+
+  <style>
+    @keyframes slideIn {
+      0% {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .animate-slideInText {
+      animation: slideIn 1s ease-out forwards;
+    }
+  </style>
 </head>
-<body class="bg-white flex flex-col items-center relative px-4 sm:px-6 lg:px-10">
+<body class="min-h-screen flex flex-col">
 
-    <!-- الهيدر -->
-    <header class="absolute bg-primary-color w-full max-w-[1410px] h-[120px] sm:h-[140px] top-[-30px] sm:top-[-43px] left-0 sm:left-[-45px] rounded-[32px] sm:rounded-[52px] border border-yellow-600  flex items-center shadow-lg px-6 sm:px-10 animate-slideIn>
+  <header class="h-24 md:h-32 w-full bg-primary-color border-3 border-t-0 rounded-b-[52px] border-black px-8 shadow-[1px_5px_4px_0px_#00000040] md:shadow-none md:rounded-br-[52px] md:rounded-b-none md:border-b-2 md:border-r-2 md:border-l-0">
+    <div class="h-full flex items-center space-x-5 relative">
+      <div class="relative">
+        <h1 class="font-inter-900 italic text-4xl md:text-5xl text-black hidden md:block">TO DO Listify</h1>
+        <span class="hidden absolute left-2 w-[265px] rounded-r-2xl rounded-l-2xl h-1 bg-white md:block"></span>
+      </div>
+      <span class="h-8 bg-white rounded-lg w-2 mt-4 hidden md:block"></span>
+      <div class="absolute left-0 md:relative">
+        <h1 id="name" class="font-inter-900 italic text-[26px] md:text-5xl text-black md:mt-5"></h1>
+      </div>
+      <button id="logOut" class="font-inter-900 w-24 h-8 rounded-full bg-black text-white text-[16px] col-span-2 absolute right-0 md:col-span-2 justify-self-center cursor-pointer hover:text-primary-color active:scale-95 md:w-36 md:h-16 md:text-2xl md:font-inter-600">LogOut</button>
+    </div>
+  </header>
 
-        
-        <div class="relative ml-5"> <!-- زيادة المسافة عن الطرف -->
-            <h1 class="text-black text-2xl sm:text-3xl md:text-4xl font-bold animate-slideInText">TO DO Listify</h1>
-            <div class="absolute left-0 bottom-[-5px] w-[120px] sm:w-[200px] h-[4px] bg-white"></div>
-        </div>
-
-        <!-- زر تسجيل الخروج -->
-        <button id="logOut" class="absolute right-10 bg-black text-white w-28 sm:w-32 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-base sm:text-lg shadow-md hover:bg-gray-800 transition-all duration-300 cursor-pointer">
-            Log Out
-        </button>
-
-    </header>
-
-    <!-- الشريط الجانبي -->
-    <aside class="fixed left-0 top-[83px] h-full bg-primary-color p-2 sm:p-5 flex flex-col items-center justify-start pt-5 sm:pt-10 w-16 sm:w-auto">
-        <div class="space-y-5">
-            <!-- الدوائر مع التأثير عند التركيز -->
-            <div class="group w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg 
-                        transition-all duration-300 focus-within:w-32 hover:w-32 focus-within:rounded-md hover:rounded-md ">
-                <a href="/src/HTML/settings.html"><i class='bx bxs-user text-4xl text-gray-800'></i></a>
-            </div>
-            <div id="showGrid" class="group w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg 
-            transition-all duration-300 cursor-pointer hover:w-32 hover:rounded-md">
-            <i class='bx bxs-home text-4xl text-gray-800'></i>
-            </div>
-
-            <div id="showSearch" class="group w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg 
-                transition-all duration-300 cursor-pointer hover:w-32 hover:rounded-md">
-                <i class='bx bx-search text-4xl text-gray-800'></i>
-            </div>
-
-            <div class="group w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg 
-                        transition-all duration-300 focus-within:w-32 hover:w-32 focus-within:rounded-md hover:rounded-md">
-                <a href="/src/HTML/new_task.html"><i class='bx bx-plus text-4xl text-gray-800'></i></a>
-            </div>
-        </div>
+  <div class="flex-1 w-full flex md:h-5/6">
+    <aside class="  w-[12%] bg-primary-color rounded-br-[52px] hidden md:block lg:w-[7%]">
+      <div class="w-full h-full flex flex-col items-center pt-5 space-y-6">
+        <a href="settings.html" class="bg-white size-18 flex items-center justify-center pt-3 border-3 rounded-full">
+          <img src="/Images/icons/person.png" alt="" class="h-14 w-9"/>
+        </a>
+        <a href="/src/HTML/home.html" class="bg-white h-18 pr-6 w-26 ml-6 rounded-l-full flex items-center justify-center">
+          <img src="/Images/icons/home.png" alt="" />
+        </a>
+        <a href="search.html" class="bg-white size-18 flex items-center border-3 justify-center rounded-full">
+          <img src="/Images/icons/search.png" alt="" />
+        </a>
+        <a href="/src/HTML/new_task.html" class="bg-white size-18 flex items-center border-3 justify-center rounded-full">
+          <img src="/Images/icons/plus.png" alt="" />
+        </a>
+      </div>
     </aside>
 
-    <!-- الشبكة التي ستظهر عند الضغط -->
-    <div id="gridContainer" class=" grid grid-cols-1 gap-4 sm:gap-5 absolute top-[180px] sm:top-[167px] left-4 sm:left-[135px] w-full max-w-[1200px]">
-        <!-- 6 عناصر داخل الشبكة -->
+    <main id="gridContainer" class="w-full pt-4 p-4 grid grid-cols-1 md:pl-16 md:pt-12 md:grid-cols-2">
+        <!-- Cards -->
 
-    </div>
+    </main>
+  </div>
 
-    <!-- واجهة البحث (مخفية في البداية) -->
-    <div id="searchContainer" class="hidden absolute top-[160px] sm:top-[143px] left-4 sm:left-[235px] w-[90%] sm:w-[1061px] h-[60px] sm:h-[72px] bg-gray-200 rounded-[32px] sm:rounded-[52px] border-r-2 border-b-2 border-gray-600 opacity-52 shadow-lg 
-        flex items-center space-x-3 px-4 sm:px-5 animate-slideIn">
-    
-    <!-- أيقونة البحث في الطرف الأيمن السفلي -->
-    <button class="absolute bottom-[-10px] right-[-10px] w-[40px] sm:w-[50px] h-[40px] sm:h-[50px] bg-primary-color rounded-full 
-        flex items-center justify-center shadow-md border-2 border-gray-700">
-        <i class='bx bx-search text-white text-lg sm:text-2xl'></i>
-    </button>
+  <footer class="w-full rounded-t-[40px] border-2 border-black flex justify-between px-5 py-2 items-center bg-primary-color md:bg-transparent md:h-0 md:pt-5 md:items-start md:relative md:rounded-t-0 md:hidden">
+    <a href="/src//HTML/home.html" class="bg-white size-16 flex items-center justify-center rounded-full">
+      <img src="/Images/icons/home.png" alt="" />
+    </a>
+    <a href="/src/HTML/new_task.html" class="bg-white size-16 flex items-center border-3 justify-center rounded-full">
+      <img src="/Images/icons/plus.png" alt=""  />
+    </a>
+    <a href="#" class="bg-white size-16 flex items-center border-3 justify-center rounded-full pt-3">
+      <img src="/Images/icons/person.png" alt="" class="h-14 w-9"/>
+    </a>
+  </footer>
 
-    <!-- حقل البحث -->
-        <input type="text" placeholder="Search" class="w-full h-full bg-transparent text-gray-800 text-xl sm:text-2xl lg:text-4xl font-semibold focus:outline-none placeholder-gray-500">
-    </div>
-
-
-    <script>
-        document.getElementById("showGrid").addEventListener("click", function() {
-            let grid = document.getElementById("gridContainer");
-            grid.classList.toggle("hidden");
-        });
-
-        // التحكم في إظهار البحث عند الضغط على أيقونة البحث
-        document.getElementById("showSearch").addEventListener("click", function() {
-            document.getElementById("searchContainer").classList.toggle("hidden");
-            document.getElementById("gridContainer").classList.add("hidden"); // إخفاء الشبكة
-        });
-    </script>
-    
-    <style>
-        .animate-slideInText {
-            animation: slideIn 1s ease-out forwards; /* التفعيل */
-        }
-    </style>
-    <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+  <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script src="/node_modules/axios/dist/axios.min.js"></script>
     <script src="/js/home.js" type="module"></script>
 

@@ -4,6 +4,7 @@ const gridContainer = document.getElementById("gridContainer");
 const logOut_btn = document.getElementById("logOut");
 let accessToken = localStorage.getItem("accessToken");
 
+document.getElementById("name").innerHTML = localStorage.getItem("name");
 const axiosInstance = axios.create({
     baseURL: baseURL,
     withCredentials: true,
@@ -24,40 +25,26 @@ const getTasks = async (token) => {
             gridContainer.innerHTML = "<p class='text-gray-500 text-center mt-5'>There are no tasks available.</p>";
         } else {
             gridContainer.innerHTML = data.map((task, index) => `
-                                <div index="${index}" 
-                    class="task-container w-full sm:w-[90%] md:w-[609px] min-h-[200px] bg-yellow-500 rounded-[52px] shadow-lg p-5 relative animate-slideIn">
-
-                    <h2 class="absolute text-xl sm:text-2xl md:text-4xl w-fit top-[14px] left-[10%] sm:left-[135px] text-black font-extrabold rounded-lg">
-                        ${task.title}
-                    </h2>
-
-                    <div class="absolute w-full right-4 flex justify-end gap-4 pr-4 pt-1">
-                        <a href="/src/HTML/update_task.html?index=${index}&task-id=${task.id}" class="cursor-pointer text-lg sm:text-xl">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
-                        <button class="delete_btn cursor-pointer text-lg sm:text-xl" task-id="${task.id}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-
-                    <div class="absolute w-[50px] sm:w-[70px] h-[50px] sm:h-[70px] top-[70px] left-[5%] sm:left-[33px] rounded-full ${getCircleColor(task.state)}"></div>
-
-                    <div class="absolute w-[80%] sm:w-[481px] top-[70px] left-[20%] sm:left-[120px] p-3">
-                        <p class="text-sm sm:text-base text-gray-800 break-words">${task.body}</p>
-                    </div>
-
-                    <div class="absolute bottom-3 sm:top-[190px] left-[10%] sm:left-[133px] flex flex-wrap gap-2 sm:gap-5">
-                        <button class="w-[90px] sm:w-[120px] h-[25px] sm:h-[30px] bg-white text-black text-xs sm:text-[19px] font-black italic rounded-lg">
-                            ${getState(task.state)}
-                        </button>
-                        <button class="w-[90px] sm:w-[120px] h-[25px] sm:h-[30px] bg-white text-black text-xs sm:text-[19px] font-black italic rounded-lg">
-                            ${new Date(task.create_at).toISOString().split("T")[0]}
-                        </button>
-                        <button class="w-[90px] sm:w-[120px] h-[25px] sm:h-[30px] bg-white text-black text-xs sm:text-[19px] font-black italic rounded-lg">
-                            ${task.priority}
-                        </button>
-                    </div>
-                </div>
+                                <div index="${index}"  class="relative h-56 w-[350px] py-1 bg-primary-color mb-4 rounded-[52px] md:space-y-2 shadow-[1px_5px_4px_0px_#00000040] md:w-[609px] md:h-64">
+        <div class="absolute top-1/2 -translate-y-1/2 left-3 size-10 ${getCircleColor(task.state)} rounded-full md:size-[70px] md:left-6"></div>
+        <div class="absolute right-6 top-4 space-x-1.5">
+            <a href="/src/HTML/update_task.html?index=${index}&task-id=${task.id}" class="cursor-pointer text-lg sm:text-xl">
+            <i class="fa-solid fa-pen"></i>
+        </a>
+        <button class="delete_btn cursor-pointer text-lg sm:text-xl" task-id="${task.id}">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+        </div>
+        <div class="pl-16 md:pl-32">
+          <h3 class="text-shadow font-inter-900 italic text-4xl w-24 md:pt-5 md:pl-6">${task.title}</h3>
+          <p class="text-white font-inter-900 italic text-3xl w-full h-34 overflow-hidden text-clip">${task.body}</p>
+        </div>
+        <div class="flex px-6 justify-evenly md:justify-start md:px-24 md:gap-2">
+            <p class="hidden font-inter-900 italic w-36 h-8 md:flex justify-center items-center bg-white rounded-[52px] text-[16px] shadow-[1px_5px_4px_0px_#00000040]">${getState(task.state)}</p>
+          <p class="font-inter-900 italic w-36 h-8 flex justify-center items-center bg-white rounded-[52px] text-[16px] shadow-[1px_5px_4px_0px_#00000040]">${new Date(task.create_at).toISOString().split("T")[0]}</p>
+          <p class="font-inter-900 italic w-36 h-8 flex justify-center items-center bg-white rounded-[52px] text-[16px] shadow-[1px_5px_4px_0px_#00000040]">${task.priority}</p>
+        </div>
+      </div>
             `).join("");
         }
     } catch (error) {
